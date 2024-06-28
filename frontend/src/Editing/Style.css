@@ -1,0 +1,409 @@
+body {
+  background-size: cover;
+  opacity: 0.9;
+}
+
+/*======================================= NAVIGATION BAR =======================================*/
+.nav {
+  background-color: #547c54;
+  padding: 0% 0% 0% 0%;
+}
+
+.offcanvas {
+  background-color: #1a1a1a;
+}
+
+.nav p {
+  margin: 6% 0% 6% 0%;
+}
+/*======================================= NAVIGATION BAR =======================================*/
+
+/*======================================= HERO =======================================*/
+#hero {
+  float: left;
+  margin: 0% 0% 0% 0%;
+  padding: 10% 5% 10% 10%;
+  height: 91.5vh;
+  background-color: #57bf57;
+  font-family: "Times New Roman", Times, serif;
+  color: #ffffff;
+}
+
+.button {
+  margin: 0% 0% 0% 0%;
+  background-color: #4c9d4c;
+  color: black;
+}
+
+.bot {
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  padding: 6% 0% 0% 0%;
+  color: black;
+}
+.witch {
+  background-color: #57bf57;
+  margin: 0% 0% 0% 0%;
+  padding: 0% 0% 0% 5%;
+}
+
+/*======================================= HERO =======================================*/
+
+.card {
+  padding: 0px 0px 0px 0px;
+  margin-top: -3.3%;
+  border-radius: 0%;
+}
+
+/*======================================= REGISTER LOGIN =======================================*/
+
+.regist-all {
+  background-color: #1a1a1a;
+  width: 98.5%;
+  padding-bottom: 1.5%;
+}
+
+.regist-page {
+  background-color: #1a1a1a;
+  width: 103.7%;
+  height: 103.1%;
+}
+
+.main-content {
+  border: 0px solid;
+  border-radius: 0;
+  border-bottom: 1px solid #aaa;
+  color: rgb(255, 255, 255);
+}
+
+.InputGroup.Text {
+  background-color: transparent;
+}
+
+.main-content option {
+  background-color: #1a1a1a;
+}
+
+.main-form {
+  border: 0px solid;
+  border-radius: 0;
+}
+
+#input::placeholder {
+  color: rgb(197, 197, 197);
+  opacity: 1;
+}
+
+.image-content {
+  margin: 0% 0% 0% -31%;
+  width: 131%;
+  height: 103.8%;
+}
+
+.content-form {
+  margin: 0% 0% 3.5% 0%;
+  padding: 0% 10% 0% 10%;
+  font-size: small;
+  font-family: sans-serif;
+}
+
+.content-row {
+  width: "100%";
+  padding: 0% 0% 0% 0%;
+}
+
+.content-groub {
+  box-sizing: 10%;
+  width: 100%;
+}
+
+.box-login {
+  background-color: #1a1a1a;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+
+.class-form {
+  position: relative;
+  top: 25%;
+  margin: 0% 10% 0% 10%;
+  height: 10%;
+}
+
+.login {
+  /* fallback for old browsers */
+  background: #6a11cb;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+}
+
+.divider:after,
+.divider:before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: white;
+}
+.h-custom {
+  height: calc(100% - 73px);
+}
+
+/*======================================= REGISTER LOGIN =======================================*/
+
+/*======================================= FOOTER =======================================*/
+
+.footer {
+  padding: 0% 0% 0% 0%;
+  margin: -4% 0% 0% 0%;
+}
+
+/*======================================= FOOTER =======================================*/
+
+/*======================================= CHAT =======================================*/
+.icon {
+  width: 2%;
+  position: relative;
+  margin-left: 1.5%;
+  margin-right: -1.5%;
+}
+
+.icons {
+  text-align: center;
+  margin: 0% 0% 0% 45%;
+}
+
+.icon-chat {
+  width: 2%;
+  margin: 0.5% 0.5% 0% -1%;
+}
+
+.chatbot {
+  position: fixed;
+  padding: 0% 0% 0% 0%;
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(69, 184, 69);
+  border-radius: 7px;
+  box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1), 0 32px 64px -48px rgba(0, 0, 0, 0.5);
+}
+
+.chatbot header {
+  padding: 1% 0% 1% 0%;
+  border-bottom: 1px solid #ffffff;
+}
+
+.chatbot header h2 {
+  color: lightblue;
+  font-size: 1.4rem;
+}
+
+.chatbot .chatbox {
+  height: 75%;
+  overflow: auto;
+  padding: 30px 20px 70px;
+}
+
+.chatbot .chat {
+  display: flex;
+}
+
+.chatbot .chat p {
+  color: #ffffff;
+  font-size: 1rem;
+  padding: 12px 16px;
+  border-radius: 10px 10px 10px 10px;
+  background-color: rgb(31, 138, 31);
+}
+
+.chatbot .input-chat {
+  height: 1%;
+}
+
+.chatbot .input-chat input {
+  width: 10%;
+  border-right: none;
+  border-color: #000000;
+  border-radius: 15px;
+  background-color: #4ab14a;
+  margin-left: 1%;
+  color: #000000;
+}
+
+.button-chat {
+  border-left: none;
+  background-color: #4ab14a;
+  margin-right: 1%;
+}
+
+.button-chat button {
+  border-radius: 0px 15px 15px 0px;
+  border-left: none;
+  border-color: #000000;
+}
+
+.button-chat button img {
+  width: 45px;
+  padding: 1% 1% 1% 1%;
+}
+
+.receive {
+  color: #ffffff;
+  justify-content: flex-start;
+}
+
+.chatbox {
+  padding: 10% 0% 0% 0%;
+  width: 100%;
+}
+
+.chatbox .send {
+  color: #ffffff;
+  justify-content: flex-end;
+}
+
+.chatbox .send p {
+  margin-right: 2%;
+}
+
+/*======================================= CHAT =======================================*/
+
+/*===================================== NotFound =====================================*/
+
+#not-found {
+  box-sizing: border-box;
+}
+
+.empty-4-5 {
+  padding: 2.5rem 2rem 5rem;
+}
+
+.empty-4-5 .main-img {
+  object-fit: cover;
+  object-position: center;
+  margin-bottom: 0.5rem;
+}
+
+.empty-4-5 .title-text {
+  font: 600 1.875rem/2.25rem Poppins, sans-serif;
+  color: #272e35;
+  margin-bottom: 1.25rem;
+}
+
+.empty-4-5 .title-caption {
+  color: #9c9c9c;
+  margin-bottom: 4rem;
+  letter-spacing: 0.025em;
+  line-height: 1.75rem;
+}
+.main-img.img-fluid {
+  width: 400px;
+}
+.empty-4-5 .btn-back {
+  font: 600 1.125rem/1.75rem Poppins, sans-serif;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+}
+
+.empty-4-5 .btn-back:hover {
+  --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+/*===================================== NotFound =====================================*/
+
+/*======================================= RESPONSIVE =======================================*/
+@media only screen and (max-width: 400px) {
+  .bot {
+    padding: 45% 0% 0% 0%;
+  }
+}
+
+@media only screen and (max-width: 1279px) {
+  /* Navbar */
+  .offcanvas {
+    max-width: 60%;
+    background-color: #57bf57;
+  }
+
+  /* HERO */
+  .bot {
+    margin: -1% 0% 0% 0%;
+  }
+  .witch {
+    padding: -1% 0% 0% 0%;
+  }
+
+  .button {
+    margin-top: -15%;
+  }
+
+  /* Register*/
+  .content-image {
+    width: 0%;
+  }
+
+  .image-content {
+    width: 0%;
+  }
+
+  .class-form {
+    padding: 10% 0% 0% 0%;
+  }
+
+  .box-login {
+    background-color: #1a1a1a;
+    width: 100%;
+  }
+
+  /* Login */
+  .photos {
+    width: 0%;
+    padding-top: -10px;
+  }
+
+  .h-custom {
+    height: 100%;
+  }
+
+  .form-login {
+    margin: -100% 0% 0% 0%;
+  }
+
+  /* Chat */
+  .send .icon-chat {
+    width: 5%;
+    margin-right: -4%;
+  }
+
+  .receive .icon-chat {
+    width: 6%;
+    padding-left: -1%;
+    margin: 3% 0% 0% -4%;
+  }
+
+  .chatbot img {
+    width: 4%;
+    margin: 0% -5% 0% 1%;
+  }
+
+  .chatbot p {
+    color: #000000;
+    font-size: 75%;
+  }
+
+  .input-chat {
+    width: 100%;
+    margin-top: -4.5%;
+  }
+
+  .chatbot .chatbox {
+    height: 84%;
+    overflow: auto;
+    padding: 70px 20px 70px;
+  }
+}
+
+/*======================================= RESPONSIVE =======================================*/
