@@ -1,29 +1,14 @@
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
-import { jwtDecode } from "jwt-decode";
 
 const Chat = () => {
-  const [name, setName] = useState("");
-  const [token, setToken] = useState("");
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const chatboxRef = useRef(null);
 
   useEffect(() => {
-    refreshToken();
     document.title = "Chat";
   }, []);
-
-  const refreshToken = async () => {
-    try {
-      const response = await axios.get("http://127.0.0.1:4000/v1/api/token");
-      setToken(response.data.accessToken);
-      const decoded = jwtDecode(response.data.accessToken);
-      setName(decoded.name);
-    } catch (error) {
-      console.error("Error refreshing token:", error);
-    }
-  };
 
   const sendMessage = async () => {
     if (!input.trim()) {
@@ -72,7 +57,7 @@ const Chat = () => {
     <div className="chatbot">
       <header>
         <h2>
-          <h3>Welcome: {name}</h3>
+          <h3>Welcome:</h3>
           <p className="icons d-inline">Chatbot</p>
         </h2>
       </header>
