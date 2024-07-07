@@ -7,6 +7,8 @@ const router = express.Router();
 
 // End point hanya digunakan peneliti untuk mengecek daftar akun yang terdaftar
 router.get("/users", verifyToken, getUsers);
+
+// Endpoint Refresh Token
 router.get("/token", refreshToken);
 
 // USER API

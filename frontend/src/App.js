@@ -1,28 +1,34 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./Editing/Style.css";
 import Dashboard from "./pages/Dasboard";
 import Chatbot from "./pages/Chatbot";
 import Login from "./pages/LoginPages";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
+import { AuthProvider } from "./Editing/Authentication.js";
+import ProtectedRoute from "./Editing/ProtectedRoute.js";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/">
-          <Route index element={<Dashboard />} />
-          <Route path="regist" element={<Register />} />
+    <Router>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
           <Route path="login" element={<Login />} />
+          <Route path="regist" element={<Register />} />
+          <Route
+            path="/chat"
+            element={
+              <ProtectedRoute>
+                <Chatbot />
+              </ProtectedRoute>
+            }
+          />
           <Route path="404" element={<NotFound />} />
-        </Route>
-        <Route path="/chat">
-          <Route index element={<Chatbot />} />
-        </Route>
-        <Route path="*" element={<Navigate to="/404" />} />
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </AuthProvider>
+    </Router>
   );
 };
 

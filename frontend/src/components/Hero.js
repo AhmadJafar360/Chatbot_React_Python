@@ -1,21 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useAuth } from "../Editing/Authentication.js";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    setIsLoggedIn(true);
-  }, []);
+  const isAuthenticated = useAuth(false);
 
   const handleClick = (e) => {
-    if (isLoggedIn) {
-      return navigate("/chat");
-    } else {
+    if (isAuthenticated) {
       return navigate("/login");
+    } else {
+      return navigate("/Chat");
     }
   };
   // const handleClick = (e) => {
