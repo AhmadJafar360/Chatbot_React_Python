@@ -1,11 +1,10 @@
-# Chatbot Registrasi E-KTP Menggunakan NLP dan ANN
+# Chatbot Using NLP and ANN
 
 Proyek ini adalah pengembangan chatbot berbasis web yang memanfaatkan Natural Language Processing (NLP) dan Artificial Neural Network (ANN). Chatbot ini ditujukan menyelesaikan Tugas Akhir dan membantu pengguna dalam registrasi E-KTP atau layanan informasi lainnya dengan mempermudah interaksi berbasis teks.
 
 ## Tujuan Proyek
-- **Mempermudah Interaksi Pengguna**: Chatbot membantu pengguna mendapatkan layanan tertentu tanpa perlu interaksi manual.
-- **Otomatisasi Layanan Publik**: Meningkatkan efisiensi proses layanan dan mengurangi beban kerja petugas.
-- **Analisis Data Pengguna**: Memberikan wawasan lebih lanjut untuk peningkatan kualitas layanan.
+- **Mengimplementasikan Natural Language Processing (NLP) Artificial Neural Network (ANN) dalam mengembangankan chatbot untuk memahami pertanyaan pengguna dan memberikan jawaban yang sesuai**
+- **Mengembangkan aplikasi chatbot pendaftaran E-KTP berbasis web yang dapat berinteraksi dengan pengguna.**
 
 ## Arsitektur Chatbot
 Proyek ini dibangun dengan beberapa komponen utama:
