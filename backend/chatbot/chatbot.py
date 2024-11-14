@@ -1,79 +1,144 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
+# Library yang digunakan untuk menjalankan sistem
 import os
-import json
 import re
+import json
 import nltk
+import random
 import numpy as np
 import tensorflow as tf
-from nltk.stem import PorterStemmer
+import pickle
+from nltk.stem import WordNetLemmatizer
+from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_extraction.text import CountVectorizer
 from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Dense
-from sklearn.preprocessing import LabelEncoder
 
+#Framework Python dan Middleware mengizinkan CORS, sehingga API bisa diakses dari pemrograman yang berbeda
+from flask import Flask, request, jsonify
+from flask_cors import CORS 
+
+# Mengunduh library NLP
 nltk.download('punkt')
+nltk.download('wordnet')
 
-app = Flask(__name__)
-CORS(app, methods=['POST'], headers=['Content-Type', 'Accept'])
+app = Flask(__name__) #Inisialisasi objek Flask untuk aplikasi web.
+CORS(app, methods=['POST'], headers=['Content-Type', 'Accept']) # Untuk mengizinkan permintaan dari domain lain
 
+lemmatizer = WordNetLemmatizer()
+
+# Membuka file json yang digunakan untuk sistem yang berisi "intents" yang termasuk "tag, pattern, responses"
 with open('backend\data\data.json') as json_file:
     data = json.load(json_file)
 
-# Text Processing (Pemrosesan teks)
+# Text Processing/PreProcessing (Natural Language Processing)
+words = []
+classes = []
+documents = []
+ignore_words = ['?', '!']
+
+for intent in data['intents']:
+    for pattern in intent['patterns']:
+
+        # Mengubah teks menjadi huruf kecil (case folding)
+        pattern = pattern.lower()
+
+        # Memecah kalimat menjadi kata-kata (Tokenizing).
+        word_list = nltk.word_tokenize(pattern)
+
+        # Mengubah kata ke bentuk dasarnya (Stemming/Lemmatization)
+        word_list = [lemmatizer.lemmatize(w.lower()) for w in word_list if w not in ignore_words]
+        words.extend(word_list)
+
+        # Menambahkan pasangan kata-kata dan tag ke documents
+        documents.append((word_list, intent['tag']))
+
+        # Menambahkan tag ke daftar classes jika belum ada.
+        if intent['tag'] not in classes:
+            classes.append(intent['tag'])
+
+# menyimpan tag dan pattern
+words = sorted(list(set(words)))
+classes = sorted(list(set(classes)))
+pickle.dump(words, open('backend\\chatbot\\pattern.pkl', 'wb'))
+pickle.dump(classes, open('backend\\chatbot\\tag.pkl', 'wb'))
+
+# Training Data
+training=[]
+output_empty=[0]*len(classes)
+
+for doc in documents:
+    # Bag Of Words
+    bag = [0] * len(words)
+    word_patterns = doc[0]
+    for word in words:
+        bag[words.index(word)] = 1 if word in word_patterns else 0
+
+    output_row = list(output_empty)
+    output_row[classes.index(doc[1])] = 1
+
+    training.append([bag, output_row])
+
+random.shuffle(training)
+training = np.array(training)
+
+Train_X = np.array(list(training[:, 0]))
+Train_Y = np.array(list(training[:, 1]))
+
+
+# Path untuk menyimpan model format HDF5.
+menyimpan_model = 'backend\chatbot\Artificial_Neural_Network_Model.h5'
+
+# Mengecek apakah model sudah ada.
+history = None
+if os.path.exists(menyimpan_model):
+    # Jika ada, model akan dimuat.
+    model = load_model(menyimpan_model)
+else:
+    # # Membuat model neural network secara berurutan.
+    model = Sequential()
+    # Input Layer [16 Neuron]
+    model.add(Dense(64, input_shape=(Train_X.shape[1],), activation='relu'))
+    # Hidden Layer Pertama [128 Neuron]
+    model.add(Dense(128, activation='relu'))
+    # Hidden Layer 2 [64 Neuron]
+    model.add(Dense(64, activation='relu'))
+    # Output Layer [Aktivasi Softmax]
+    model.add(Dense(len(classes), activation='softmax'))
+
+    # Mengompile model menggunakan optimizer adam dan categorical crossentropy loss
+    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+    # Melatih model dengan data yang sudah diproses oleh NLP.
+    model.fit(Train_X, Train_Y, epochs=200, batch_size=8, verbose=2)
+
+    # menyimpan model training
+    model.save(menyimpan_model)
+
+    # menampilkan output hasil model
+    print(f'\nPelatihan model selesai, file disimpan di {menyimpan_model}')
+
+# Menampilkan hasil "accuracy" dan "loss" dalam bentuk grafik
+
 def preprocess_text(text):
-    # Case folding
     text = text.lower()
-    # Tokenizing
+    text = re.sub(r'[^a-zA-Z0-9\s]', '', text)
     tokens = nltk.word_tokenize(text)
-    # Stemming
-    stemmer = PorterStemmer()
-    tokens = [stemmer.stem(word) for word in tokens]
+    tokens = [lemmatizer.lemmatize(word) for word in tokens if word not in ignore_words]
     return ' '.join(tokens)
 
-corpus = []
-tags = []
+vectorizer = CountVectorizer(vocabulary=words)
+vectorizer.fit(words)
 
-for intent in data["intens"]:
-    for pattern in intent["patterns"]:
-        # Preprocess text
-        preprocessed_text = preprocess_text(pattern)
-        corpus.append(preprocessed_text)
-        tags.append(intent["tags"])
-
-# Bag of Words
-vectorizer = CountVectorizer()
-X = vectorizer.fit_transform(corpus).toarray()
-
-# pengkodean label
 label_encoder = LabelEncoder()
-y = label_encoder.fit_transform(tags)
-
-# Membuat dan melatih model
-# Periksa apakah file model sudah ada
-model_file = 'backend\chatbot\chatbot_model_NLP_ANN.h5'
-if os.path.exists(model_file):
-    # Memuat model yang sudah dibuat
-    model = load_model(model_file)
-else:
-    model = Sequential()
-    model.add(Dense(8, input_shape=(X.shape[1],), activation='relu'))
-    model.add(Dense(len(set(y)), activation='softmax'))
-
-# Kompilasi model
-    model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-
-# Melatih model
-    model.fit(X, y, epochs=100, batch_size=1, verbose=2)
-
-# menyimpan model
-    model.save(model_file)
+label_encoder.fit(classes)
 
 def get_response(user_input):
     # proses input
     preprocessed_input = preprocess_text(user_input)
     # Mengubah input menggunakan vectorizer
     input_vector = vectorizer.transform([preprocessed_input]).toarray()
+    print(f"\nInput Vector:")
+    print(np.array_str(input_vector, max_line_width=52))
     # Memprediksi probabilitas menggunakan model
     prediksi_masalah = model.predict(input_vector)
     # mencari indeks kelas dengan probabilitas tertinggi
@@ -81,10 +146,18 @@ def get_response(user_input):
     # Decode class menjadi tag
     prediksi_tag = label_encoder.inverse_transform([prediksi_kelas])[0]
 
+    confidence = np.max(prediksi_masalah)
+    if confidence < 0.5:  # Threshold untuk menentukan apakah input dikenali atau tidak
+        return ["Mohon maaf, saya tidak mengerti pertanyaan anda, silahkan ajukan pertanyaan lain."], prediksi_kelas, "error"
+
+    # Cetak prediksi_kelas dan prediksi_tag
+    print(f"\nPrediksi Kelas: {prediksi_kelas}")
+    print(f"\nPrediksi Tag: {prediksi_tag}")
+
     # Temukan respons sesuai tag
-    for intent in data["intens"]:
-        if intent["tags"] == prediksi_tag:
-            return intent["responses"]
+    for intent in data["intents"]:
+        if intent["tag"] == prediksi_tag:
+            return intent["responses"], prediksi_kelas, prediksi_tag
 
 @app.route('/', methods=['OPTIONS'])
 def handle_options():
@@ -95,96 +168,14 @@ def chat():
     data = request.json
     user_input = data['message']
 
-    bot_response = get_response(user_input)
+    bot_response, prediksi_kelas, prediksi_tag = get_response(user_input)
 
-    return jsonify({'botResponse': bot_response})
+    return jsonify({
+        'botResponse': bot_response,
+        'prediksiKelas': int(prediksi_kelas),
+        'prediksiTag': prediksi_tag
+    })
 
 if __name__ == '__main__':
     app.run(debug=True)
 
-
-
-
-#==================================================_CHATBOT-TOKENIZER_===================================================#
-# menggunakan model
-# from flask import Flask, request, jsonify
-# from flask_cors import CORS
-# import os
-# import json
-# import numpy as np
-# import tensorflow as tf
-# from tensorflow.keras.models import Sequential, load_model
-# from tensorflow.keras.layers import Dense, Embedding, Flatten
-# from tensorflow.keras.preprocessing.text import Tokenizer
-# from tensorflow.keras.preprocessing.sequence import pad_sequences
-# from sklearn.preprocessing import LabelEncoder
-
-# app = Flask(__name__)
-# CORS(app, methods=['POST'], headers=['Content-Type', 'Accept'])
-
-# json_path = 'backend\data\data.json'
-
-# with open(json_path, 'r') as file:
-#     data = json.load(file)
-
-# patterns = []
-# tags = []
-
-# for intent in data["intens"]:
-#     for pattern in intent["patterns"]:
-#         patterns.append(pattern)
-#         tags.append(intent["tags"])
-
-# tokenizer = Tokenizer()
-# tokenizer.fit_on_texts(patterns)
-# vocab_size = len(tokenizer.word_index) + 1
-
-# X = tokenizer.texts_to_sequences(patterns)
-# X_padded = pad_sequences(X)
-# label_encoder = LabelEncoder()
-# y_encoded = label_encoder.fit_transform(tags)
-
-# # Check if the model file already exists
-# model_file = 'backend\chatbot_model.h5'
-# if os.path.exists(model_file):
-#     # Load the pre-trained model
-#     model = load_model(model_file)
-# else:
-#     # Create and train the model
-#     model = Sequential()
-#     model.add(Embedding(input_dim=vocab_size, output_dim=50, input_length=X_padded.shape[1]))
-#     model.add(Flatten())
-#     model.add(Dense(16, activation='relu'))
-#     model.add(Dense(len(set(y_encoded)), activation='softmax'))
-#     model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-#     model.fit(X_padded, y_encoded, epochs=25, batch_size=1, verbose=2)
-
-#     # Save the trained model
-#     model.save(model_file)
-
-# def bot_response(user_input):
-#     user_input_sequence = tokenizer.texts_to_sequences([user_input])
-#     user_input_padded = pad_sequences(user_input_sequence, maxlen=X_padded.shape[1])
-#     predicted_probabilities = model.predict(user_input_padded)
-#     prediksi_kelas = np.argmax(predicted_probabilities, axis=-1)
-#     prediksi_tag = label_encoder.inverse_transform(prediksi_kelas)
-
-#     for intent in data["intens"]:
-#         if intent["tags"] == prediksi_tag:
-#             return intent["responses"]
-
-# @app.route('/', methods=['OPTIONS'])
-# def handle_options():
-#     return jsonify({'status': 'success'}), 200
-
-# @app.route('/chat', methods=['POST'])
-# def chat():
-#     data = request.json
-#     user_input = data['message']
-
-#     bot_response = bot_response(user_input)
-
-#     return jsonify({'botResponse': bot_response})
-
-# if __name__ == '__main__':
-#     app.run(debug=True)

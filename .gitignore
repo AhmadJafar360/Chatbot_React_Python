@@ -16,7 +16,8 @@
 backend/env/
 backend/instance/
 backend/node_modules
-backend/akun.txt
+backend/data/akun.txt
+backend/data/data.json
 
 # misc
 .DS_Store

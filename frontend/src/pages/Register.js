@@ -53,7 +53,7 @@ const Register = () => {
     }
 
     try {
-      await axios.post("http://127.0.0.1:4000/v1/api/regist", {
+      await axios.post("http://127.0.0.1:4000/regist", {
         firstname: formData.firstname,
         lastname: formData.lastname,
         gender: formData.gender,

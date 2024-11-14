@@ -57,7 +57,7 @@ const Chat = () => {
     <div className="chatbot">
       <header>
         <h2>
-          <img src="./images/chat.png" width="30" height="30" className="icon-chat" alt="React Bootstrap logo" />
+          <img src="./icons/bot.svg" className="icon d-inline" alt="bot" />
           <p className="icons d-inline">Chatbot</p>
         </h2>
       </header>
