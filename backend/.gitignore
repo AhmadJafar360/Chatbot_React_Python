@@ -3,6 +3,7 @@
 # dependencies
 # Ignore node_modules for frontend
 /frontend/node_modules
+/data
 /frontend/.pnp
 /frontend/.pnp.js
 

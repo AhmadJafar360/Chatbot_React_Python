@@ -73,10 +73,7 @@
     {
       "tag": "prosedur",
       "patterns": ["tata cara", "prosedur", "langkah-langkah", "cara daftar"],
-      "responses": [
-        "Prosedur untuk pendaftaran E-KTP meliputi pengisian formulir, verifikasi dokumen, dan pengambilan sidik jari serta foto.",
-        "Langkah-langkah pendaftaran E-KTP adalah pengisian formulir, verifikasi dokumen, dan pengambilan sidik jari serta foto."
-      ]
+      "responses": ["Prosedur untuk pendaftaran E-KTP meliputi pengisian formulir, verifikasi dokumen, dan pengambilan sidik jari serta foto."]
     },
     {
       "tag": "waktu",

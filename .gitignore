@@ -16,8 +16,7 @@
 backend/env/
 backend/instance/
 backend/node_modules
-backend/data/akun.txt
-backend/data/data.json
+/backend/data/
 
 # misc
 .DS_Store
@@ -29,3 +28,5 @@ backend/data/data.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+backend/data/data.json
+.gitignore
