@@ -15,7 +15,7 @@ Proyek ini dibangun dengan beberapa komponen utama:
 ## Komponen Utama
 ### 1. Natural Language Processing (NLP)
 NLP bertanggung jawab untuk memproses dan memahami teks dari pengguna. Berikut langkah-langkahnya:
-   - **Text Preprocessing**: Meliputi case folding, tokenizing, dan stemming/lemmatization.
+   - **Text Preprocessing**: Meliputi case folding, tokenizing, stemming/lemmatization dan Bag of Words.
    - **Intent Recognition**: Menganalisis niat atau maksud dari pesan pengguna dan mengklasifikasikannya dengan ANN.
    - **Entity Extraction**: Mengidentifikasi entitas seperti nama, tanggal, atau nomor identitas yang relevan dengan konteks layanan.
 
